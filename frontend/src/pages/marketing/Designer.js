@@ -395,6 +395,35 @@ const MarketingDesigner = () => {
         </div>
       </div>
 
+      {/* Save Design Dialog */}
+      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+        <DialogContent data-testid="save-design-dialog">
+          <DialogHeader>
+            <DialogTitle>Save Design</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="design-name">Design Name</Label>
+              <Input
+                id="design-name"
+                value={designName}
+                onChange={(e) => setDesignName(e.target.value)}
+                placeholder="e.g., Summer Sale Banner"
+                data-testid="design-name-input"
+              />
+            </div>
+            <div className="flex gap-3">
+              <Button onClick={handleSaveDesign} className="btn-primary flex-1" data-testid="confirm-save-button">
+                Save Design
+              </Button>
+              <Button variant="outline" onClick={() => setSaveDialogOpen(false)} data-testid="cancel-save-button">
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
