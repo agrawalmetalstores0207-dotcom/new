@@ -5,6 +5,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/AuthContext';
 import { Plus, FileText } from 'lucide-react';
 import { toast } from 'sonner';
@@ -16,6 +19,14 @@ const ERPSales = () => {
   const { user } = useAuth();
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    invoice_number: '',
+    party_name: '',
+    total_amount: '',
+    payment_status: 'pending',
+    items: []
+  });
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
@@ -34,6 +45,34 @@ const ERPSales = () => {
       console.error('Error fetching sales:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateInvoice = async () => {
+    if (!formData.invoice_number || !formData.party_name || !formData.total_amount) {
+      toast.error('Please fill all required fields');
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/erp/sales/`, {
+        ...formData,
+        total_amount: parseFloat(formData.total_amount),
+        date: new Date().toISOString().split('T')[0]
+      });
+      toast.success('Invoice created successfully!');
+      setCreateDialogOpen(false);
+      setFormData({
+        invoice_number: '',
+        party_name: '',
+        total_amount: '',
+        payment_status: 'pending',
+        items: []
+      });
+      fetchSales();
+    } catch (error) {
+      console.error('Error creating invoice:', error);
+      toast.error('Failed to create invoice');
     }
   };
 
