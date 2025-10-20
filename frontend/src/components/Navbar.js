@@ -51,9 +51,9 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
-              {user?.logo_url ? (
+              {logoUrl ? (
                 <img 
-                  src={user.logo_url} 
+                  src={logoUrl} 
                   alt="Fatima Collection Logo" 
                   className="w-10 h-10 object-contain"
                 />
