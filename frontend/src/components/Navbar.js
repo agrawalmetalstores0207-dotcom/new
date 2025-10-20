@@ -80,9 +80,14 @@ const Navbar = () => {
                       My Orders
                     </DropdownMenuItem>
                     {user.role === 'admin' && (
-                      <DropdownMenuItem onClick={() => navigate('/admin')}>
-                        Admin Dashboard
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem onClick={() => navigate('/admin')}>
+                          Admin Dashboard
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate('/admin/settings')}>
+                          Settings
+                        </DropdownMenuItem>
+                      </>
                     )}
                     <DropdownMenuItem onClick={handleLogout} className="text-red-600">
                       Logout
