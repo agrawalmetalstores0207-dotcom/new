@@ -95,7 +95,7 @@ const ERPSales = () => {
               <h1 className="text-4xl sm:text-5xl font-bold gradient-text">Sales Management</h1>
               <p className="text-gray-600 mt-2">Create invoices and track payments</p>
             </div>
-            <Button className="btn-primary" data-testid="create-invoice-button">
+            <Button className="btn-primary" onClick={() => setCreateDialogOpen(true)} data-testid="create-invoice-button">
               <Plus className="w-5 h-5 mr-2" />
               Create Invoice
             </Button>
@@ -107,7 +107,7 @@ const ERPSales = () => {
                 <FileText className="w-20 h-20 mx-auto mb-6 text-gray-400" />
                 <h2 className="text-2xl font-bold mb-4">No sales invoices yet</h2>
                 <p className="text-gray-600 mb-6">Create your first invoice to track sales</p>
-                <Button className="btn-primary" data-testid="create-first-invoice">
+                <Button className="btn-primary" onClick={() => setCreateDialogOpen(true)} data-testid="create-first-invoice">
                   <Plus className="w-5 h-5 mr-2" />
                   Create First Invoice
                 </Button>
