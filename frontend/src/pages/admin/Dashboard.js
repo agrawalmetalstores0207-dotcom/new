@@ -156,12 +156,12 @@ const AdminDashboard = () => {
               </Card>
             </Link>
 
-            <Link to="/marketing/designer">
+            <Link to="/marketing/designer-pro">
               <Card className="card cursor-pointer group" data-testid="quick-action-marketing">
                 <CardContent className="p-6 text-center">
                   <Users className="w-12 h-12 mx-auto mb-3 text-[#8b4513] group-hover:scale-110 transition-transform" />
-                  <h3 className="font-bold text-lg">Marketing Designer</h3>
-                  <p className="text-sm text-gray-600 mt-2">Create posters, banners and flyers</p>
+                  <h3 className="font-bold text-lg">Professional Designer</h3>
+                  <p className="text-sm text-gray-600 mt-2">Create with text effects & advanced tools</p>
                 </CardContent>
               </Card>
             </Link>
