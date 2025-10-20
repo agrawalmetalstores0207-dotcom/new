@@ -9,6 +9,7 @@ import Checkout from '@/pages/Checkout';
 import Orders from '@/pages/Orders';
 import AdminDashboard from '@/pages/admin/Dashboard';
 import AdminProducts from '@/pages/admin/Products';
+import AdminSettings from '@/pages/admin/Settings';
 import ERPDashboardNew from '@/pages/erp/ERPDashboardNew';
 import ItemsManagement from '@/pages/erp/ItemsManagement';
 import PartiesManagement from '@/pages/erp/PartiesManagement';
