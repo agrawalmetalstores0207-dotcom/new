@@ -898,6 +898,55 @@ const MarketingDesignerPro = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Share Dialog */}
+      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Share to Social Media</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Narration/Caption (optional)</Label>
+              <textarea
+                value={shareNarration}
+                onChange={(e) => setShareNarration(e.target.value)}
+                placeholder="Enter your caption or narration..."
+                className="w-full px-3 py-2 border rounded-md min-h-[100px]"
+              />
+              <p className="text-sm text-gray-500 mt-2">
+                Note: Image will be downloaded. Upload it manually and add this caption.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Button 
+                onClick={() => shareToSocial('facebook')} 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={!socialSettings.facebook_page_link}
+              >
+                <Facebook className="w-4 h-4 mr-2" />
+                Share to Facebook
+              </Button>
+              
+              <Button 
+                onClick={() => shareToSocial('instagram')} 
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                disabled={!socialSettings.instagram_page_link}
+              >
+                <Instagram className="w-4 h-4 mr-2" />
+                Share to Instagram
+              </Button>
+            </div>
+
+            {(!socialSettings.facebook_page_link && !socialSettings.instagram_page_link) && (
+              <p className="text-sm text-red-500 text-center">
+                Please configure social media links in Settings first.
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
