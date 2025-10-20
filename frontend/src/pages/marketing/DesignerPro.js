@@ -13,7 +13,7 @@ import { useAuth } from '@/context/AuthContext';
 import { 
   Plus, Download, Save, Image as ImageIcon, Type, Search, 
   Palette, Upload, Bold, Italic, Underline, AlignLeft, 
-  AlignCenter, AlignRight, Crop, Move, Layers
+  AlignCenter, AlignRight, Crop, Move, Layers, Facebook, Instagram
 } from 'lucide-react';
 import { toast } from 'sonner';
 
