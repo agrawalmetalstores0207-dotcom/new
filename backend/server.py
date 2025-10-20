@@ -704,7 +704,7 @@ async def upload_product_image(
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    return {"filename": filename, "url": f"/uploads/products/{filename}"}
+    return {"filename": filename, "url": f"/api/uploads/products/{filename}"}
 
 @api_router.post("/marketing/designs", response_model=MarketingDesign)
 async def save_design(
