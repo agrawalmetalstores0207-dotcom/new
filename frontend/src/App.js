@@ -9,6 +9,8 @@ import Checkout from '@/pages/Checkout';
 import Orders from '@/pages/Orders';
 import AdminDashboard from '@/pages/admin/Dashboard';
 import AdminProducts from '@/pages/admin/Products';
+import ERPDashboard from '@/pages/erp/Dashboard';
+import MarketingDesigner from '@/pages/marketing/Designer';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 
