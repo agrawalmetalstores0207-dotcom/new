@@ -2,6 +2,7 @@ from fastapi import FastAPI, APIRouter, HTTPException, status, Depends, UploadFi
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
@@ -14,6 +15,7 @@ from passlib.context import CryptContext
 import jwt
 from jose import JWTError
 import random
+import shutil
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
