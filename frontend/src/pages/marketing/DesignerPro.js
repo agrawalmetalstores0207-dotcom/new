@@ -522,12 +522,45 @@ const MarketingDesignerPro = () => {
                             </div>
                           )
                         ) : (
-                          <img
-                            src={element.src}
-                            alt="Element"
-                            className="w-full h-full object-cover"
-                            draggable={false}
-                          />
+                          <>
+                            <img
+                              src={element.src}
+                              alt="Element"
+                              className="w-full h-full object-cover"
+                              draggable={false}
+                            />
+                            {/* Resize handles for images when selected */}
+                            {selectedElement === element.id && (
+                              <>
+                                {/* Corner resize handles */}
+                                <div
+                                  className="absolute w-3 h-3 bg-blue-500 rounded-full -top-1 -left-1 cursor-nwse-resize"
+                                  onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                    // Add resize logic here
+                                  }}
+                                />
+                                <div
+                                  className="absolute w-3 h-3 bg-blue-500 rounded-full -top-1 -right-1 cursor-nesw-resize"
+                                  onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                />
+                                <div
+                                  className="absolute w-3 h-3 bg-blue-500 rounded-full -bottom-1 -left-1 cursor-nesw-resize"
+                                  onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                />
+                                <div
+                                  className="absolute w-3 h-3 bg-blue-500 rounded-full -bottom-1 -right-1 cursor-nwse-resize"
+                                  onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                />
+                              </>
+                            )}
+                          </>
                         )}
                       </div>
                     ))}
