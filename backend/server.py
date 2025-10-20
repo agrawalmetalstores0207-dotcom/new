@@ -263,6 +263,63 @@ async def login(user_data: UserLogin):
 async def get_me(current_user: User = Depends(get_current_user)):
     return current_user
 
+# ============ USER PROFILE ROUTES ============
+
+class UserProfileUpdate(BaseModel):
+    username: Optional[str] = None
+    mobile: Optional[str] = None
+    facebook_page_link: Optional[str] = None
+    instagram_page_link: Optional[str] = None
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str
+
+@api_router.put("/users/profile")
+async def update_profile(
+    profile_data: UserProfileUpdate,
+    current_user: User = Depends(get_current_user)
+):
+    update_fields = {}
+    if profile_data.username:
+        update_fields['username'] = profile_data.username
+    if profile_data.mobile:
+        update_fields['mobile'] = profile_data.mobile
+    if profile_data.facebook_page_link is not None:
+        update_fields['facebook_page_link'] = profile_data.facebook_page_link
+    if profile_data.instagram_page_link is not None:
+        update_fields['instagram_page_link'] = profile_data.instagram_page_link
+    
+    if update_fields:
+        await db.users.update_one({"id": current_user.id}, {"$set": update_fields})
+    
+    return {"message": "Profile updated successfully"}
+
+@api_router.post("/users/change-password")
+async def change_password(
+    password_data: PasswordChange,
+    current_user: User = Depends(get_current_user)
+):
+    # Get current user with password
+    user_doc = await db.users.find_one({"id": current_user.id}, {"_id": 0})
+    if not user_doc:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Verify current password
+    if not pwd_context.verify(password_data.current_password, user_doc['password']):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+    
+    # Hash new password
+    hashed_password = pwd_context.hash(password_data.new_password)
+    
+    # Update password
+    await db.users.update_one(
+        {"id": current_user.id},
+        {"$set": {"password": hashed_password}}
+    )
+    
+    return {"message": "Password changed successfully"}
+
 # ============ PRODUCT ROUTES ============
 
 @api_router.get("/products", response_model=List[Product])
