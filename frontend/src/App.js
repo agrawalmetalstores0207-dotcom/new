@@ -29,6 +29,8 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/products" element={<AdminProducts />} />
+              <Route path="/erp" element={<ERPDashboard />} />
+              <Route path="/marketing/designer" element={<MarketingDesigner />} />
             </Routes>
           </BrowserRouter>
           <Toaster position="top-center" richColors />
