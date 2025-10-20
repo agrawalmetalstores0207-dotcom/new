@@ -1,80 +1,66 @@
-import React, { Suspense, useRef } from 'react';
-import { Canvas, useFrame, extend } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
-
-// Extend Three.js objects
-extend({ Object3D: Object, Mesh: Object });
-
-// Simple 3D Product Model (Fallback Box)
-function ProductModel({ color = '#8b4513' }) {
-  const meshRef = useRef();
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.005;
-    }
-  });
-
-  return (
-    <group ref={meshRef}>
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[2, 3, 0.5]} />
-        <meshStandardMaterial 
-          color={color} 
-          roughness={0.5} 
-          metalness={0.1}
-        />
-      </mesh>
-      {/* Add decorative elements */}
-      <mesh position={[0, 0, 0.3]} castShadow>
-        <boxGeometry args={[1.5, 0.2, 0.1]} />
-        <meshStandardMaterial color="#d4a574" roughness={0.3} />
-      </mesh>
-      <mesh position={[0, 0.8, 0.3]} castShadow>
-        <boxGeometry args={[1.5, 0.2, 0.1]} />
-        <meshStandardMaterial color="#d4a574" roughness={0.3} />
-      </mesh>
-    </group>
-  );
-}
+import React from 'react';
 
 const Product3DViewer = ({ product }) => {
   const mainColor = product?.colors?.[0] || '#8b4513';
 
   return (
-    <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-[#f8f3f0] to-[#fdf8f5]" data-testid="product-3d-viewer">
-      <Canvas
-        shadows
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        gl={{ alpha: true, antialias: true }}
-      >
-        <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <spotLight
-            position={[10, 10, 10]}
-            angle={0.15}
-            penumbra={1}
-            intensity={1}
-            castShadow
-          />
-          <pointLight position={[-10, -10, -10]} intensity={0.3} />
+    <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden relative bg-gradient-to-br from-[#f8f3f0] to-[#fdf8f5] flex items-center justify-center" data-testid="product-3d-viewer">
+      {/* 3D Placeholder - Three.js would be integrated here for production */}
+      <div className="relative w-64 h-80 perspective-1000">
+        <div className="w-full h-full transform-style-3d animate-rotate-y">
+          {/* Front face */}
+          <div 
+            className="absolute inset-0 rounded-2xl shadow-2xl flex items-center justify-center"
+            style={{ 
+              backgroundColor: mainColor,
+              transform: 'translateZ(20px)',
+            }}
+          >
+            <div className="text-white text-center p-6">
+              <div className="w-32 h-32 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
+                <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                </svg>
+              </div>
+              <p className="text-sm opacity-80">{product?.name}</p>
+            </div>
+          </div>
           
-          <ProductModel color={mainColor} />
-          
-          <Environment preset="studio" />
-          <OrbitControls 
-            enableZoom={true}
-            enablePan={false}
-            minDistance={5}
-            maxDistance={15}
-            autoRotate={false}
+          {/* Decorative stripes */}
+          <div 
+            className="absolute top-1/4 left-0 right-0 h-4 bg-gradient-to-r from-[#d4a574] to-[#d4a574]/50 shadow-lg"
+            style={{ transform: 'translateZ(21px)' }}
           />
-        </Suspense>
-      </Canvas>
+          <div 
+            className="absolute bottom-1/4 left-0 right-0 h-4 bg-gradient-to-r from-[#d4a574] to-[#d4a574]/50 shadow-lg"
+            style={{ transform: 'translateZ(21px)' }}
+          />
+        </div>
+      </div>
       
       <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg text-xs text-gray-600">
-        <p>🖱️ Drag to rotate • Scroll to zoom</p>
+        <p>🎭 3D Product Visualization (Demo Mode)</p>
       </div>
+
+      <style jsx>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        @keyframes rotate-y {
+          from {
+            transform: rotateY(0deg) rotateX(-10deg);
+          }
+          to {
+            transform: rotateY(360deg) rotateX(-10deg);
+          }
+        }
+        .animate-rotate-y {
+          animation: rotate-y 8s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };
