@@ -641,6 +641,9 @@ async def get_analytics(current_user: User = Depends(get_current_admin)):
 # Include router
 app.include_router(api_router)
 
+# Mount static files for uploads
+app.mount("/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
+
 # Import and include ERP routers
 from erp import sales, purchases, payments, reports
 
