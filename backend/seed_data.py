@@ -25,7 +25,8 @@ async def seed_data():
             "email": "admin@fatima.com",
             "password": pwd_context.hash("admin123"),
             "full_name": "Admin User",
-            "phone": "+919876543210",
+            "phone": "+918999967710",
+            "mobile": "8999967710",
             "role": "admin",
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
