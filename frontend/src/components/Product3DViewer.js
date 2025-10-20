@@ -12,38 +12,47 @@ const Product3DViewer = ({ product }) => {
       }}
       data-testid="product-3d-viewer"
     >
-      <div className="relative w-full h-full flex items-center justify-center">
-        {/* 3D-like rotating product card with image */}
+      <div className="relative w-full h-full flex items-center justify-center p-8">
+        {/* 3D-like rotating product image card */}
         <div 
-          className="relative w-80 h-96 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500"
+          className="relative rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 overflow-hidden"
           style={{
+            width: '400px',
+            height: '500px',
             animation: 'gentle-float 3s ease-in-out infinite',
             transformStyle: 'preserve-3d',
           }}
         >
-          {/* Product Image */}
-          <div className="absolute inset-0 rounded-2xl overflow-hidden">
-            <img 
-              src={productImage} 
-              alt={product?.name}
-              className="w-full h-full object-cover"
-            />
-            {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
-          </div>
+          {/* Product Image - Main Focus */}
+          <img 
+            src={productImage} 
+            alt={product?.name}
+            className="w-full h-full object-cover"
+            style={{ objectFit: 'cover' }}
+          />
           
-          {/* Product info overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h3 className="text-xl font-bold mb-1">{product?.name}</h3>
-            <p className="text-sm opacity-90">{product?.category?.replace('_', ' ')}</p>
+          {/* Gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
+          
+          {/* Product info overlay at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+            <h3 className="text-2xl font-bold mb-2 drop-shadow-lg">{product?.name}</h3>
+            <p className="text-sm opacity-90 mb-2 drop-shadow-md">
+              {product?.category?.replace('_', ' ').toUpperCase()}
+            </p>
             {product?.price && (
-              <p className="text-2xl font-bold mt-2">₹{product.price}</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold">₹{product.sale_price || product.price}</p>
+                {product.sale_price && product.sale_price < product.price && (
+                  <p className="text-lg line-through opacity-70">₹{product.price}</p>
+                )}
+              </div>
             )}
           </div>
           
-          {/* Decorative stripes */}
-          <div className="absolute top-1/4 left-0 right-0 h-2 bg-gradient-to-r from-[#d4a574] to-[#d4a574]/50 shadow-lg"></div>
-          <div className="absolute bottom-1/3 left-0 right-0 h-2 bg-gradient-to-r from-[#d4a574] to-[#d4a574]/50 shadow-lg"></div>
+          {/* Decorative accent bars */}
+          <div className="absolute top-1/4 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#d4a574] to-transparent shadow-lg opacity-60"></div>
+          <div className="absolute bottom-1/3 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#d4a574] to-transparent shadow-lg opacity-60"></div>
         </div>
       </div>
       
@@ -53,8 +62,8 @@ const Product3DViewer = ({ product }) => {
 
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes gentle-float {
-          0%, 100% { transform: translateY(0px) rotateY(-15deg); }
-          50% { transform: translateY(-20px) rotateY(15deg); }
+          0%, 100% { transform: translateY(0px) rotateY(-8deg); }
+          50% { transform: translateY(-20px) rotateY(8deg); }
         }
       `}} />
     </div>
