@@ -46,6 +46,7 @@ function App() {
               <Route path="/erp/expense-vouchers" element={<ExpenseVouchers />} />
               <Route path="/erp/reports-hub" element={<ReportsHub />} />
               <Route path="/marketing/designer" element={<MarketingDesigner />} />
+              <Route path="/marketing/designer-pro" element={<MarketingDesignerPro />} />
             </Routes>
           </BrowserRouter>
           <Toaster position="top-center" richColors />
