@@ -31,6 +31,26 @@ const MarketingDesignerPro = () => {
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
   const [canvasBackground, setCanvasBackground] = useState('#ffffff');
   
+  // Social media settings
+  const [socialSettings, setSocialSettings] = useState({
+    facebook_page_link: '',
+    instagram_page_link: ''
+  });
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareNarration, setShareNarration] = useState('');
+  
+  // Templates
+  const templates = [
+    { name: 'Instagram Post', width: 1080, height: 1080, bg: '#ffffff' },
+    { name: 'Facebook Post', width: 1200, height: 630, bg: '#ffffff' },
+    { name: 'Story', width: 1080, height: 1920, bg: '#ffffff' },
+    { name: 'Flyer A4', width: 794, height: 1123, bg: '#ffffff' },
+    { name: 'Business Card', width: 1050, height: 600, bg: '#ffffff' },
+    { name: 'Banner', width: 1200, height: 400, bg: '#ffffff' },
+    { name: 'Square Post', width: 800, height: 800, bg: '#ffffff' },
+    { name: 'Wide Banner', width: 1500, height: 500, bg: '#ffffff' }
+  ];
+  
   // Text editing state
   const [editingText, setEditingText] = useState(false);
   const [textStyles, setTextStyles] = useState({
