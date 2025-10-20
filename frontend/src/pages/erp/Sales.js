@@ -136,6 +136,66 @@ const ERPSales = () => {
         </div>
       </div>
 
+      {/* Create Invoice Dialog */}
+      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+        <DialogContent data-testid="create-invoice-dialog">
+          <DialogHeader>
+            <DialogTitle>Create New Invoice</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="invoice-number">Invoice Number *</Label>
+              <Input
+                id="invoice-number"
+                value={formData.invoice_number}
+                onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
+                placeholder="INV-001"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="party-name">Party Name *</Label>
+              <Input
+                id="party-name"
+                value={formData.party_name}
+                onChange={(e) => setFormData({...formData, party_name: e.target.value})}
+                placeholder="Customer name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="total-amount">Total Amount (₹) *</Label>
+              <Input
+                id="total-amount"
+                type="number"
+                value={formData.total_amount}
+                onChange={(e) => setFormData({...formData, total_amount: e.target.value})}
+                placeholder="5000"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="payment-status">Payment Status</Label>
+              <select
+                id="payment-status"
+                value={formData.payment_status}
+                onChange={(e) => setFormData({...formData, payment_status: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="pending">Pending</option>
+                <option value="paid">Paid</option>
+                <option value="partial">Partial</option>
+              </select>
+            </div>
+            <div className="flex gap-2 mt-6">
+              <Button variant="outline" onClick={() => setCreateDialogOpen(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button onClick={handleCreateInvoice} className="btn-primary flex-1">
+                Create Invoice
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
