@@ -366,14 +366,69 @@ const AdminProducts = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="images">Images (comma-separated URLs)</Label>
+              <Label htmlFor="images">Product Images</Label>
+              
+              {/* Upload Button */}
+              <div className="mb-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="product-image-upload"
+                  data-testid="product-image-upload-input"
+                />
+                <label htmlFor="product-image-upload">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full cursor-pointer"
+                    disabled={uploadingImage}
+                    asChild
+                    data-testid="upload-product-image-button"
+                  >
+                    <span>
+                      {uploadingImage ? 'Uploading...' : 'Upload Images (Mobile/Computer)'}
+                    </span>
+                  </Button>
+                </label>
+              </div>
+
+              {/* Image Preview */}
+              {uploadedImages.length > 0 && (
+                <div className="grid grid-cols-4 gap-2 mb-3">
+                  {uploadedImages.map((img, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={img}
+                        alt={`Product ${index + 1}`}
+                        className="w-full h-20 object-cover rounded-lg border-2 border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        data-testid={`remove-image-${index}`}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Manual URL Input (Optional) */}
               <Input
                 id="images"
                 value={formData.images}
                 onChange={(e) => setFormData({ ...formData, images: e.target.value })}
-                placeholder="https://image1.jpg, https://image2.jpg"
+                placeholder="Or enter image URLs (comma-separated)"
                 data-testid="product-images-input"
               />
+              <p className="text-xs text-gray-500">
+                Upload images above or paste URLs manually
+              </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
