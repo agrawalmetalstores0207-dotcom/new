@@ -686,6 +686,26 @@ async def upload_background(
     
     return {"filename": filename, "url": f"/uploads/backgrounds/{filename}"}
 
+@api_router.post("/products/upload-image")
+async def upload_product_image(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_admin)
+):
+    # Validate file type
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image files allowed")
+    
+    # Generate unique filename
+    file_ext = file.filename.split(".")[-1]
+    filename = f"{uuid.uuid4()}.{file_ext}"
+    file_path = f"/app/backend/uploads/products/{filename}"
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return {"filename": filename, "url": f"/uploads/products/{filename}"}
+
 @api_router.post("/marketing/designs", response_model=MarketingDesign)
 async def save_design(
     design_data: MarketingDesignCreate,
