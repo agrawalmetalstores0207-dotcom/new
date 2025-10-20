@@ -639,6 +639,15 @@ async def get_analytics(current_user: User = Depends(get_current_admin)):
 # Include router
 app.include_router(api_router)
 
+# Import and include ERP routers
+from erp import sales, purchases, payments, reports
+
+app.include_router(sales.router)
+app.include_router(purchases.router)
+app.include_router(payments.router)
+app.include_router(payments.party_router)
+app.include_router(reports.router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
