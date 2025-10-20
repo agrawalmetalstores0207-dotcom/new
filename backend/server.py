@@ -43,6 +43,10 @@ class User(BaseModel):
     email: EmailStr
     full_name: str
     phone: Optional[str] = None
+    username: Optional[str] = None
+    mobile: Optional[str] = None
+    facebook_page_link: Optional[str] = None
+    instagram_page_link: Optional[str] = None
     role: str = "customer"  # customer, admin
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
