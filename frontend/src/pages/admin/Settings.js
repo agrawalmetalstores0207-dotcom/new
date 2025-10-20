@@ -151,6 +151,52 @@ const AdminSettings = () => {
           </div>
 
           <div className="grid gap-6">
+            {/* Logo Upload */}
+            <Card className="card">
+              <CardContent className="p-6">
+                <h2 className="text-2xl font-bold mb-6 flex items-center">
+                  <Package className="w-6 h-6 mr-2 text-[#8b4513]" />
+                  Business Logo
+                </h2>
+                <div className="flex items-center gap-6">
+                  {settings.logo_url ? (
+                    <div className="relative">
+                      <img 
+                        src={settings.logo_url} 
+                        alt="Business Logo" 
+                        className="w-32 h-32 object-contain border-2 border-gray-300 rounded-lg p-2"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                      <Package className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-600 mb-4">Upload your business logo. Recommended size: 200x200px</p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="hidden"
+                      id="logo-upload"
+                      disabled={uploadingLogo}
+                    />
+                    <label htmlFor="logo-upload">
+                      <Button 
+                        className="btn-primary" 
+                        disabled={uploadingLogo}
+                        onClick={() => document.getElementById('logo-upload').click()}
+                        type="button"
+                      >
+                        {uploadingLogo ? 'Uploading...' : settings.logo_url ? 'Change Logo' : 'Upload Logo'}
+                      </Button>
+                    </label>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Profile Settings */}
             <Card className="card">
               <CardContent className="p-6">
