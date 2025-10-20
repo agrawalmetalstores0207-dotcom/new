@@ -294,11 +294,36 @@ async def update_profile(
         update_fields['facebook_page_link'] = profile_data.facebook_page_link
     if profile_data.instagram_page_link is not None:
         update_fields['instagram_page_link'] = profile_data.instagram_page_link
+    if profile_data.logo_url is not None:
+        update_fields['logo_url'] = profile_data.logo_url
     
     if update_fields:
         await db.users.update_one({"id": current_user.id}, {"$set": update_fields})
     
     return {"message": "Profile updated successfully"}
+
+@api_router.post("/users/upload-logo")
+async def upload_logo(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+):
+    # Validate file type
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image files allowed")
+    
+    # Generate unique filename
+    file_ext = file.filename.split(".")[-1]
+    filename = f"logo_{current_user.id}.{file_ext}"
+    file_path = f"/app/backend/uploads/logos/{filename}"
+    
+    # Create directory if not exists
+    Path("/app/backend/uploads/logos").mkdir(parents=True, exist_ok=True)
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return {"filename": filename, "url": f"/api/uploads/logos/{filename}"}
 
 @api_router.post("/users/change-password")
 async def change_password(
