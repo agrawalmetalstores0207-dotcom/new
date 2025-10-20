@@ -48,7 +48,8 @@ const AdminSettings = () => {
         username: user.username || '',
         mobile: user.mobile || '',
         facebook_page_link: user.facebook_page_link || '',
-        instagram_page_link: user.instagram_page_link || ''
+        instagram_page_link: user.instagram_page_link || '',
+        logo_url: user.logo_url || ''
       });
     } catch (error) {
       console.error('Error loading settings:', error);
