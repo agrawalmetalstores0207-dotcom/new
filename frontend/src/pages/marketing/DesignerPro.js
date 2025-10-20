@@ -84,7 +84,20 @@ const MarketingDesignerPro = () => {
       return;
     }
     fetchSavedDesigns();
+    fetchSocialSettings();
   }, [user]);
+
+  const fetchSocialSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/settings/public`);
+      setSocialSettings({
+        facebook_page_link: response.data.facebook_page_link || '',
+        instagram_page_link: response.data.instagram_page_link || ''
+      });
+    } catch (error) {
+      console.error('Error fetching social settings:', error);
+    }
+  };
 
   const fetchSavedDesigns = async () => {
     try {
