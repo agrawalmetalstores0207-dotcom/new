@@ -337,10 +337,20 @@ const MarketingDesigner = () => {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="font-bold text-lg">Canvas</h3>
-                    <Button onClick={handleDownload} className="btn-primary" data-testid="download-button">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => setSaveDialogOpen(true)} 
+                        variant="outline"
+                        data-testid="save-design-button"
+                      >
+                        <Save className="w-4 h-4 mr-2" />
+                        Save
+                      </Button>
+                      <Button onClick={handleDownload} className="btn-primary" data-testid="download-button">
+                        <Download className="w-4 h-4 mr-2" />
+                        Download
+                      </Button>
+                    </div>
                   </div>
 
                   {/* Design Canvas */}
