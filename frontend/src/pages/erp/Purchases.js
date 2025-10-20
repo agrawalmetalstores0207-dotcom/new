@@ -136,6 +136,66 @@ const ERPPurchases = () => {
         </div>
       </div>
 
+      {/* Create Purchase Dialog */}
+      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+        <DialogContent data-testid="create-purchase-dialog">
+          <DialogHeader>
+            <DialogTitle>Add New Purchase</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="bill-number">Bill Number *</Label>
+              <Input
+                id="bill-number"
+                value={formData.bill_number}
+                onChange={(e) => setFormData({...formData, bill_number: e.target.value})}
+                placeholder="BILL-001"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="supplier-name">Supplier Name *</Label>
+              <Input
+                id="supplier-name"
+                value={formData.supplier_name}
+                onChange={(e) => setFormData({...formData, supplier_name: e.target.value})}
+                placeholder="Supplier name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="total-amount">Total Amount (₹) *</Label>
+              <Input
+                id="total-amount"
+                type="number"
+                value={formData.total_amount}
+                onChange={(e) => setFormData({...formData, total_amount: e.target.value})}
+                placeholder="10000"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="payment-status">Payment Status</Label>
+              <select
+                id="payment-status"
+                value={formData.payment_status}
+                onChange={(e) => setFormData({...formData, payment_status: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="pending">Pending</option>
+                <option value="paid">Paid</option>
+                <option value="partial">Partial</option>
+              </select>
+            </div>
+            <div className="flex gap-2 mt-6">
+              <Button variant="outline" onClick={() => setCreateDialogOpen(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button onClick={handleCreatePurchase} className="btn-primary flex-1">
+                Add Purchase
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
