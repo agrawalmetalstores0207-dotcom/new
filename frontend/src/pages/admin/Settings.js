@@ -98,6 +98,9 @@ const AdminSettings = () => {
       // Update profile with new logo
       await axios.put(`${API}/users/profile`, { ...settings, logo_url: logoUrl });
       
+      // Refresh user in context to update navbar
+      await refreshUser();
+      
       toast.success('Logo uploaded successfully!');
     } catch (error) {
       console.error('Upload error:', error);
