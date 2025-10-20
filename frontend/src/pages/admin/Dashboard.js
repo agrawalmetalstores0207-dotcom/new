@@ -146,21 +146,25 @@ const AdminDashboard = () => {
               </Card>
             </Link>
 
-            <Card className="card cursor-pointer group" data-testid="quick-action-orders">
-              <CardContent className="p-6 text-center">
-                <ShoppingBag className="w-12 h-12 mx-auto mb-3 text-[#8b4513] group-hover:scale-110 transition-transform" />
-                <h3 className="font-bold text-lg">View Orders</h3>
-                <p className="text-sm text-gray-600 mt-2">Manage and track customer orders</p>
-              </CardContent>
-            </Card>
+            <Link to="/erp">
+              <Card className="card cursor-pointer group" data-testid="quick-action-erp">
+                <CardContent className="p-6 text-center">
+                  <ShoppingBag className="w-12 h-12 mx-auto mb-3 text-[#8b4513] group-hover:scale-110 transition-transform" />
+                  <h3 className="font-bold text-lg">ERP & Accounting</h3>
+                  <p className="text-sm text-gray-600 mt-2">Sales, Purchase, Inventory & Reports</p>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="card cursor-pointer group" data-testid="quick-action-customers">
-              <CardContent className="p-6 text-center">
-                <Users className="w-12 h-12 mx-auto mb-3 text-[#8b4513] group-hover:scale-110 transition-transform" />
-                <h3 className="font-bold text-lg">Customer Management</h3>
-                <p className="text-sm text-gray-600 mt-2">View and manage customer accounts</p>
-              </CardContent>
-            </Card>
+            <Link to="/marketing/designer">
+              <Card className="card cursor-pointer group" data-testid="quick-action-marketing">
+                <CardContent className="p-6 text-center">
+                  <Users className="w-12 h-12 mx-auto mb-3 text-[#8b4513] group-hover:scale-110 transition-transform" />
+                  <h3 className="font-bold text-lg">Marketing Designer</h3>
+                  <p className="text-sm text-gray-600 mt-2">Create posters, banners and flyers</p>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </div>
       </div>
