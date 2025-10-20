@@ -257,6 +257,38 @@ const MarketingDesignerPro = () => {
     toast.success(`Loaded: ${design.name}`);
   };
 
+  // Load template
+  const loadTemplate = (template) => {
+    setCanvasSize({ width: template.width, height: template.height });
+    setCanvasBackground(template.bg);
+    setCanvasElements([]);
+    setSelectedElement(null);
+    toast.success(`Template loaded: ${template.name}`);
+  };
+
+  // Share to social media
+  const shareToSocial = (platform) => {
+    if (platform === 'facebook' && !socialSettings.facebook_page_link) {
+      toast.error('Facebook page link not configured. Please add it in Settings.');
+      return;
+    }
+    if (platform === 'instagram' && !socialSettings.instagram_page_link) {
+      toast.error('Instagram page link not configured. Please add it in Settings.');
+      return;
+    }
+
+    // Export design first
+    exportDesign();
+    
+    // Open social media in new tab
+    const link = platform === 'facebook' 
+      ? socialSettings.facebook_page_link 
+      : socialSettings.instagram_page_link;
+    
+    window.open(link, '_blank');
+    toast.success(`Opening ${platform}. Upload the downloaded image and add your narration!`);
+  };
+
   // Export design
   const exportDesign = () => {
     // Create a temporary canvas for export
