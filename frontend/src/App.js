@@ -30,6 +30,9 @@ function App() {
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/products" element={<AdminProducts />} />
               <Route path="/erp" element={<ERPDashboard />} />
+              <Route path="/erp/sales" element={<ERPDashboard />} />
+              <Route path="/erp/purchases" element={<ERPDashboard />} />
+              <Route path="/erp/reports" element={<ERPDashboard />} />
               <Route path="/marketing/designer" element={<MarketingDesigner />} />
             </Routes>
           </BrowserRouter>
