@@ -364,6 +364,10 @@ const MarketingDesignerPro = () => {
               <p className="text-gray-600 mt-1">Create stunning designs with advanced tools</p>
             </div>
             <div className="flex gap-2">
+              <Button onClick={() => setShareDialogOpen(true)} variant="outline">
+                <Upload className="w-4 h-4 mr-2" />
+                Share
+              </Button>
               <Button onClick={() => setSaveDialogOpen(true)} className="btn-primary">
                 <Save className="w-4 h-4 mr-2" />
                 Save Design
