@@ -29,14 +29,119 @@ const MarketingDesigner = () => {
   const [designText, setDesignText] = useState('Big Sale! Up to 50% OFF');
   const [fontSize, setFontSize] = useState(48);
   const [textColor, setTextColor] = useState('#ffffff');
-  const [unsplashQuery, setUnsplashQuery] = useState('');
   const [backgroundImage, setBackgroundImage] = useState('');
+  const [savedDesigns, setSavedDesigns] = useState([]);
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [designName, setDesignName] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [loadingDesigns, setLoadingDesigns] = useState(false);
 
-  if (!user || user.role !== 'admin') {
-    toast.error('Admin access required');
-    navigate('/admin');
-    return null;
-  }
+  useEffect(() => {
+    if (!user || user.role !== 'admin') {
+      toast.error('Admin access required');
+      navigate('/admin');
+      return;
+    }
+    fetchSavedDesigns();
+  }, [user]);
+
+  const fetchSavedDesigns = async () => {
+    setLoadingDesigns(true);
+    try {
+      const response = await axios.get(`${API}/marketing/designs`);
+      setSavedDesigns(response.data);
+    } catch (error) {
+      console.error('Error fetching designs:', error);
+    } finally {
+      setLoadingDesigns(false);
+    }
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${API}/marketing/upload-background`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      const imageUrl = `${process.env.REACT_APP_BACKEND_URL}${response.data.url}`;
+      setBackgroundImage(imageUrl);
+      toast.success('Image uploaded successfully!');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSaveDesign = async () => {
+    if (!designName.trim()) {
+      toast.error('Please enter a design name');
+      return;
+    }
+
+    try {
+      const designData = {
+        name: designName,
+        template: selectedTemplate.name,
+        design_text: designText,
+        font_size: fontSize,
+        text_color: textColor,
+        background_image: backgroundImage || null,
+        background_gradient: !backgroundImage ? selectedTemplate.bg : null,
+        width: selectedTemplate.width,
+        height: selectedTemplate.height
+      };
+
+      await axios.post(`${API}/marketing/designs`, designData);
+      toast.success('Design saved successfully!');
+      setSaveDialogOpen(false);
+      setDesignName('');
+      fetchSavedDesigns();
+    } catch (error) {
+      console.error('Save error:', error);
+      toast.error('Failed to save design');
+    }
+  };
+
+  const handleLoadDesign = (design) => {
+    setDesignText(design.design_text);
+    setFontSize(design.font_size);
+    setTextColor(design.text_color);
+    setBackgroundImage(design.background_image || '');
+    
+    const template = templates.find(t => t.name === design.template);
+    if (template) {
+      setSelectedTemplate(template);
+    }
+    
+    toast.success(`Loaded: ${design.name}`);
+  };
+
+  const handleDeleteDesign = async (designId) => {
+    if (!window.confirm('Are you sure you want to delete this design?')) return;
+
+    try {
+      await axios.delete(`${API}/marketing/designs/${designId}`);
+      toast.success('Design deleted');
+      fetchSavedDesigns();
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error('Failed to delete design');
+    }
+  };
 
   const handleDownload = () => {
     toast.success('Design would be downloaded in production!');
