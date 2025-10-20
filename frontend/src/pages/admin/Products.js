@@ -153,6 +153,11 @@ const AdminProducts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Use uploaded images if available, otherwise use manual URLs
+    const imageUrls = uploadedImages.length > 0 
+      ? uploadedImages 
+      : formData.images.split(',').map(s => s.trim()).filter(s => s);
+    
     const productData = {
       name: formData.name,
       description: formData.description,
@@ -160,7 +165,7 @@ const AdminProducts = () => {
       price: parseFloat(formData.price),
       sale_price: formData.sale_price ? parseFloat(formData.sale_price) : null,
       stock: parseInt(formData.stock),
-      images: formData.images.split(',').map(s => s.trim()).filter(s => s),
+      images: imageUrls,
       sizes: formData.sizes.split(',').map(s => s.trim()).filter(s => s),
       colors: formData.colors.split(',').map(s => s.trim()).filter(s => s),
       fabric: formData.fabric || null,
