@@ -65,6 +65,7 @@ const AdminProducts = () => {
   const handleOpenModal = (product = null) => {
     if (product) {
       setEditingProduct(product);
+      setUploadedImages(product.images || []);
       setFormData({
         name: product.name,
         description: product.description,
@@ -83,6 +84,7 @@ const AdminProducts = () => {
       });
     } else {
       setEditingProduct(null);
+      setUploadedImages([]);
       setFormData({
         name: '',
         description: '',
@@ -101,6 +103,51 @@ const AdminProducts = () => {
       });
     }
     setModalOpen(true);
+  };
+
+  const handleImageUpload = async (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploadingImage(true);
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        if (!file.type.startsWith('image/')) {
+          toast.error(`${file.name} is not an image file`);
+          return null;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await axios.post(`${API}/products/upload-image`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        return `${process.env.REACT_APP_BACKEND_URL}${response.data.url}`;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      const validUrls = uploadedUrls.filter(url => url !== null);
+      
+      const newImages = [...uploadedImages, ...validUrls];
+      setUploadedImages(newImages);
+      setFormData({ ...formData, images: newImages.join(', ') });
+      
+      toast.success(`${validUrls.length} image(s) uploaded successfully!`);
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload images');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleRemoveImage = (indexToRemove) => {
+    const newImages = uploadedImages.filter((_, index) => index !== indexToRemove);
+    setUploadedImages(newImages);
+    setFormData({ ...formData, images: newImages.join(', ') });
+    toast.success('Image removed');
   };
 
   const handleSubmit = async (e) => {
