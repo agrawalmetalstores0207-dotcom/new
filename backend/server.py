@@ -664,6 +664,83 @@ async def get_analytics(current_user: User = Depends(get_current_admin)):
         "ai_insights": "Sales increased by 25% this month. Kurtis are trending!"
     }
 
+# ============ MARKETING DESIGNER ============
+
+@api_router.post("/marketing/upload-background")
+async def upload_background(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_admin)
+):
+    # Validate file type
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image files allowed")
+    
+    # Generate unique filename
+    file_ext = file.filename.split(".")[-1]
+    filename = f"{uuid.uuid4()}.{file_ext}"
+    file_path = f"/app/backend/uploads/backgrounds/{filename}"
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return {"filename": filename, "url": f"/uploads/backgrounds/{filename}"}
+
+@api_router.post("/marketing/designs", response_model=MarketingDesign)
+async def save_design(
+    design_data: MarketingDesignCreate,
+    current_user: User = Depends(get_current_admin)
+):
+    design = MarketingDesign(
+        user_id=current_user.id,
+        **design_data.model_dump()
+    )
+    
+    design_doc = design.model_dump()
+    design_doc['created_at'] = design_doc['created_at'].isoformat()
+    
+    await db.marketing_designs.insert_one(design_doc)
+    
+    return design
+
+@api_router.get("/marketing/designs", response_model=List[MarketingDesign])
+async def get_designs(current_user: User = Depends(get_current_admin)):
+    designs = await db.marketing_designs.find(
+        {"user_id": current_user.id}, 
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(100)
+    
+    for design in designs:
+        if isinstance(design.get('created_at'), str):
+            design['created_at'] = datetime.fromisoformat(design['created_at'])
+    
+    return designs
+
+@api_router.get("/marketing/designs/{design_id}", response_model=MarketingDesign)
+async def get_design(
+    design_id: str,
+    current_user: User = Depends(get_current_admin)
+):
+    design = await db.marketing_designs.find_one({"id": design_id}, {"_id": 0})
+    if not design:
+        raise HTTPException(status_code=404, detail="Design not found")
+    
+    if isinstance(design.get('created_at'), str):
+        design['created_at'] = datetime.fromisoformat(design['created_at'])
+    
+    return MarketingDesign(**design)
+
+@api_router.delete("/marketing/designs/{design_id}")
+async def delete_design(
+    design_id: str,
+    current_user: User = Depends(get_current_admin)
+):
+    result = await db.marketing_designs.delete_one({"id": design_id, "user_id": current_user.id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Design not found")
+    
+    return {"message": "Design deleted successfully"}
+
 # Include router
 app.include_router(api_router)
 
