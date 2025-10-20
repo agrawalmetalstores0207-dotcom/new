@@ -35,10 +35,13 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/products" element={<AdminProducts />} />
-              <Route path="/erp" element={<ERPDashboard />} />
-              <Route path="/erp/sales" element={<ERPSales />} />
-              <Route path="/erp/purchases" element={<ERPPurchases />} />
-              <Route path="/erp/reports" element={<ERPReports />} />
+              <Route path="/erp" element={<ERPDashboardNew />} />
+              <Route path="/erp/items" element={<ItemsManagement />} />
+              <Route path="/erp/parties" element={<PartiesManagement />} />
+              <Route path="/erp/sales-vouchers" element={<SalesVouchers />} />
+              <Route path="/erp/purchase-vouchers" element={<PurchaseVouchers />} />
+              <Route path="/erp/expense-vouchers" element={<ExpenseVouchers />} />
+              <Route path="/erp/reports-hub" element={<ReportsHub />} />
               <Route path="/marketing/designer" element={<MarketingDesigner />} />
             </Routes>
           </BrowserRouter>
