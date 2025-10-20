@@ -34,7 +34,7 @@ const Navbar = () => {
       }
     };
     fetchBusinessLogo();
-  }, []);
+  }, [user]); // Refetch when user changes (after logo upload)
 
   const handleLogout = () => {
     logout();
