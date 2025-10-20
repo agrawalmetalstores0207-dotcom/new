@@ -268,6 +268,24 @@ async def login(user_data: UserLogin):
 async def get_me(current_user: User = Depends(get_current_user)):
     return current_user
 
+@api_router.get("/settings/public")
+async def get_public_settings():
+    """Get public business settings like logo"""
+    admin_user = await db.users.find_one({"role": "admin"}, {"_id": 0})
+    if admin_user:
+        return {
+            "business_name": "Fatima Collection",
+            "logo_url": admin_user.get('logo_url'),
+            "facebook_page_link": admin_user.get('facebook_page_link'),
+            "instagram_page_link": admin_user.get('instagram_page_link')
+        }
+    return {
+        "business_name": "Fatima Collection",
+        "logo_url": None,
+        "facebook_page_link": None,
+        "instagram_page_link": None
+    }
+
 # ============ USER PROFILE ROUTES ============
 
 class UserProfileUpdate(BaseModel):
