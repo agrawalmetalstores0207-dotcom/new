@@ -47,6 +47,7 @@ class User(BaseModel):
     mobile: Optional[str] = None
     facebook_page_link: Optional[str] = None
     instagram_page_link: Optional[str] = None
+    logo_url: Optional[str] = None
     role: str = "customer"  # customer, admin
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
