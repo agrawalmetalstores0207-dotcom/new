@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, Menu, X, Heart, Search } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import AuthModal from './AuthModal';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,17 +13,36 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [businessLogo, setBusinessLogo] = useState(null);
   const { user, logout } = useAuth();
   const { cartCount } = useCart();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch business logo from public settings
+    const fetchBusinessLogo = async () => {
+      try {
+        const response = await axios.get(`${API}/settings/public`);
+        setBusinessLogo(response.data.logo_url);
+      } catch (error) {
+        console.error('Failed to fetch business logo:', error);
+      }
+    };
+    fetchBusinessLogo();
+  }, []);
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
+
+  // Use admin's logo if logged in as admin, otherwise use business logo
+  const logoUrl = (user?.role === 'admin' && user?.logo_url) ? user.logo_url : businessLogo;
 
   return (
     <>
