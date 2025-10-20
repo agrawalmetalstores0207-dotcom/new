@@ -382,9 +382,32 @@ const MarketingDesignerPro = () => {
           <div className="grid grid-cols-12 gap-4">
             {/* Left Toolbar */}
             <div className="col-span-2 space-y-2">
+              {/* Templates */}
               <Card className="card">
                 <CardContent className="p-4">
-                  <h3 className="font-bold mb-4">Tools</h3>
+                  <h3 className="font-bold mb-4">📐 Templates</h3>
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                    {templates.map((template, idx) => (
+                      <Button
+                        key={idx}
+                        onClick={() => loadTemplate(template)}
+                        variant="outline"
+                        className="w-full justify-start text-sm"
+                      >
+                        {template.name}
+                        <span className="text-xs text-gray-500 ml-auto">
+                          {template.width}x{template.height}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Tools */}
+              <Card className="card">
+                <CardContent className="p-4">
+                  <h3 className="font-bold mb-4">🛠️ Tools</h3>
                   <div className="space-y-2">
                     <Button onClick={addTextElement} variant="outline" className="w-full justify-start">
                       <Type className="w-4 h-4 mr-2" />
@@ -414,8 +437,8 @@ const MarketingDesignerPro = () => {
               {/* Saved Designs */}
               <Card className="card">
                 <CardContent className="p-4">
-                  <h3 className="font-bold mb-4">Saved Designs</h3>
-                  <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                  <h3 className="font-bold mb-4">💾 Saved</h3>
+                  <div className="space-y-2 max-h-[200px] overflow-y-auto">
                     {savedDesigns.map((design) => (
                       <div
                         key={design.id}
