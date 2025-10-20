@@ -768,7 +768,7 @@ app.include_router(api_router)
 app.mount("/api/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
 
 # Import and include ERP routers
-from erp import sales, purchases, payments, reports
+from erp import sales, purchases, payments, reports, accounting_api, vouchers_api, reports_api
 
 # Add /api prefix to ERP routers
 app.include_router(sales.router, prefix="/api")
@@ -776,6 +776,11 @@ app.include_router(purchases.router, prefix="/api")
 app.include_router(payments.router, prefix="/api")
 app.include_router(payments.party_router, prefix="/api")
 app.include_router(reports.router, prefix="/api")
+
+# Add new accounting ERP routers
+app.include_router(accounting_api.router, prefix="/api")
+app.include_router(vouchers_api.router, prefix="/api")
+app.include_router(reports_api.router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
