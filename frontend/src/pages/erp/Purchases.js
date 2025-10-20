@@ -95,7 +95,7 @@ const ERPPurchases = () => {
               <h1 className="text-4xl sm:text-5xl font-bold gradient-text">Purchase Management</h1>
               <p className="text-gray-600 mt-2">Record purchases and manage suppliers</p>
             </div>
-            <Button className="btn-primary" data-testid="create-purchase-button">
+            <Button className="btn-primary" onClick={() => setCreateDialogOpen(true)} data-testid="create-purchase-button">
               <Plus className="w-5 h-5 mr-2" />
               Add Purchase
             </Button>
@@ -107,7 +107,7 @@ const ERPPurchases = () => {
                 <ShoppingCart className="w-20 h-20 mx-auto mb-6 text-gray-400" />
                 <h2 className="text-2xl font-bold mb-4">No purchase records yet</h2>
                 <p className="text-gray-600 mb-6">Add your first purchase to track inventory</p>
-                <Button className="btn-primary" data-testid="create-first-purchase">
+                <Button className="btn-primary" onClick={() => setCreateDialogOpen(true)} data-testid="create-first-purchase">
                   <Plus className="w-5 h-5 mr-2" />
                   Add First Purchase
                 </Button>
