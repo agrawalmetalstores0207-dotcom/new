@@ -1,7 +1,9 @@
 import React, { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Stage, Environment, useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
+import { Canvas, useFrame, extend } from '@react-three/fiber';
+import { OrbitControls, Environment } from '@react-three/drei';
+
+// Extend Three.js objects
+extend({ Object3D: Object, Mesh: Object });
 
 // Simple 3D Product Model (Fallback Box)
 function ProductModel({ color = '#8b4513' }) {
