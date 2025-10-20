@@ -151,6 +151,32 @@ class ChatResponse(BaseModel):
     response: str
     products: List[Product] = []
 
+class MarketingDesign(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    name: str
+    template: str
+    design_text: str
+    font_size: int
+    text_color: str
+    background_image: Optional[str] = None
+    background_gradient: Optional[str] = None
+    width: int
+    height: int
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class MarketingDesignCreate(BaseModel):
+    name: str
+    template: str
+    design_text: str
+    font_size: int
+    text_color: str
+    background_image: Optional[str] = None
+    background_gradient: Optional[str] = None
+    width: int
+    height: int
+
 # ============ AUTH HELPERS ============
 
 def create_access_token(data: dict):
