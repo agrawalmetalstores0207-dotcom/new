@@ -74,6 +74,39 @@ const AdminSettings = () => {
     }
   };
 
+  const handleLogoUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    setUploadingLogo(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${API}/users/upload-logo`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      const logoUrl = `${process.env.REACT_APP_BACKEND_URL}${response.data.url}`;
+      setSettings({ ...settings, logo_url: logoUrl });
+      
+      // Update profile with new logo
+      await axios.put(`${API}/users/profile`, { ...settings, logo_url: logoUrl });
+      
+      toast.success('Logo uploaded successfully!');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload logo');
+    } finally {
+      setUploadingLogo(false);
+    }
+  };
+
   const handleChangePassword = async () => {
     if (!passwordData.current_password || !passwordData.new_password) {
       toast.error('Please fill all password fields');
