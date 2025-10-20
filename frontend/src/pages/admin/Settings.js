@@ -22,8 +22,10 @@ const AdminSettings = () => {
     username: '',
     mobile: '',
     facebook_page_link: '',
-    instagram_page_link: ''
+    instagram_page_link: '',
+    logo_url: ''
   });
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [passwordData, setPasswordData] = useState({
     current_password: '',
     new_password: '',
