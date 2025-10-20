@@ -18,6 +18,7 @@ import PurchaseVouchers from '@/pages/erp/PurchaseVouchers';
 import ExpenseVouchers from '@/pages/erp/ExpenseVouchers';
 import ReportsHub from '@/pages/erp/ReportsHub';
 import MarketingDesigner from '@/pages/marketing/Designer';
+import MarketingDesignerPro from '@/pages/marketing/DesignerPro';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 
