@@ -274,6 +274,7 @@ class UserProfileUpdate(BaseModel):
     mobile: Optional[str] = None
     facebook_page_link: Optional[str] = None
     instagram_page_link: Optional[str] = None
+    logo_url: Optional[str] = None
 
 class PasswordChange(BaseModel):
     current_password: str
