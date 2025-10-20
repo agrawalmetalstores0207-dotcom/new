@@ -5,6 +5,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/AuthContext';
 import { Plus, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
@@ -16,6 +19,14 @@ const ERPPurchases = () => {
   const { user } = useAuth();
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    bill_number: '',
+    supplier_name: '',
+    total_amount: '',
+    payment_status: 'pending',
+    items: []
+  });
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
@@ -34,6 +45,34 @@ const ERPPurchases = () => {
       console.error('Error fetching purchases:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreatePurchase = async () => {
+    if (!formData.bill_number || !formData.supplier_name || !formData.total_amount) {
+      toast.error('Please fill all required fields');
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/erp/purchases/`, {
+        ...formData,
+        total_amount: parseFloat(formData.total_amount),
+        date: new Date().toISOString().split('T')[0]
+      });
+      toast.success('Purchase bill created successfully!');
+      setCreateDialogOpen(false);
+      setFormData({
+        bill_number: '',
+        supplier_name: '',
+        total_amount: '',
+        payment_status: 'pending',
+        items: []
+      });
+      fetchPurchases();
+    } catch (error) {
+      console.error('Error creating purchase:', error);
+      toast.error('Failed to create purchase bill');
     }
   };
 
