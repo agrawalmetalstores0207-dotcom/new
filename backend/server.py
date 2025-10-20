@@ -770,11 +770,12 @@ app.mount("/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploa
 # Import and include ERP routers
 from erp import sales, purchases, payments, reports
 
-app.include_router(sales.router)
-app.include_router(purchases.router)
-app.include_router(payments.router)
-app.include_router(payments.party_router)
-app.include_router(reports.router)
+# Add /api prefix to ERP routers
+app.include_router(sales.router, prefix="/api")
+app.include_router(purchases.router, prefix="/api")
+app.include_router(payments.router, prefix="/api")
+app.include_router(payments.party_router, prefix="/api")
+app.include_router(reports.router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
