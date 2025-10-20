@@ -764,8 +764,8 @@ async def delete_design(
 # Include router
 app.include_router(api_router)
 
-# Mount static files for uploads
-app.mount("/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
+# Mount static files for uploads under /api prefix to match Kubernetes ingress rules
+app.mount("/api/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
 
 # Import and include ERP routers
 from erp import sales, purchases, payments, reports
