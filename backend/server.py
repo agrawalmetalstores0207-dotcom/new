@@ -684,7 +684,7 @@ async def upload_background(
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    return {"filename": filename, "url": f"/uploads/backgrounds/{filename}"}
+    return {"filename": filename, "url": f"/api/uploads/backgrounds/{filename}"}
 
 @api_router.post("/products/upload-image")
 async def upload_product_image(
