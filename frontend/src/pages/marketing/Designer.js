@@ -240,6 +240,35 @@ const MarketingDesigner = () => {
                     <ImageIcon className="w-5 h-5 mr-2 text-[#8b4513]" />
                     Background Images
                   </h3>
+                  
+                  {/* Upload Button */}
+                  <div className="mb-3">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="bg-upload"
+                      data-testid="background-upload-input"
+                    />
+                    <label htmlFor="bg-upload">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full cursor-pointer"
+                        disabled={uploading}
+                        asChild
+                        data-testid="upload-background-button"
+                      >
+                        <span>
+                          <Upload className="w-4 h-4 mr-2" />
+                          {uploading ? 'Uploading...' : 'Upload Image'}
+                        </span>
+                      </Button>
+                    </label>
+                  </div>
+
+                  {/* Sample Images */}
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     {sampleImages.map((img, index) => (
                       <button
@@ -260,6 +289,44 @@ const MarketingDesigner = () => {
                   >
                     Remove Background
                   </Button>
+                </CardContent>
+              </Card>
+
+              {/* Saved Designs */}
+              <Card className="card">
+                <CardContent className="p-4">
+                  <h3 className="font-bold text-lg mb-3 flex items-center">
+                    <FolderOpen className="w-5 h-5 mr-2 text-[#8b4513]" />
+                    Saved Designs ({savedDesigns.length})
+                  </h3>
+                  <div className="space-y-2 max-h-64 overflow-y-auto">
+                    {savedDesigns.map((design) => (
+                      <div
+                        key={design.id}
+                        className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                        data-testid={`saved-design-${design.id}`}
+                      >
+                        <button
+                          onClick={() => handleLoadDesign(design)}
+                          className="flex-1 text-left text-sm font-medium hover:text-[#8b4513] truncate"
+                        >
+                          {design.name}
+                        </button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeleteDesign(design.id)}
+                          className="text-red-500 hover:text-red-700"
+                          data-testid={`delete-design-${design.id}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                    {savedDesigns.length === 0 && (
+                      <p className="text-sm text-gray-500 text-center py-4">No saved designs yet</p>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             </div>
